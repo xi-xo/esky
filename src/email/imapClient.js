@@ -1,6 +1,5 @@
 import { ImapFlow } from 'imapflow';
 import { configEnv } from '../env.js';
-
 const client = new ImapFlow({
     host: "imap.gmail.com",
     port: 993,
@@ -10,11 +9,8 @@ const client = new ImapFlow({
         pass: configEnv.USER_PASSWORD
     }
 });
-
-
 async function main() {
     await client.connect();
-
     let lock = await client.getMailboxLock('INBOX');
     console.log("Connected to mailbox:", client.mailbox);
     try {
@@ -22,7 +18,6 @@ async function main() {
             console.log("No messages in mailbox");
             return;
         }
-
         // Fetch the most recent messages
         let message = await client.fetchOne('*', {
             envelope: true,
@@ -32,13 +27,14 @@ async function main() {
             console.log("No messages found");
             return;
         }
-        const msnSubject = message.envelope
+        const msnSubject = message.envelope?.subject;
         console.log("Most recent message subject:", msnSubject);
         console.log("Here is the message header:", message);
-    } finally {
+    }
+    finally {
         lock.release();
     }
     await client.logout();
 }
-
-main().catch(console.error)
+main().catch(console.error);
+//# sourceMappingURL=imapClient.js.map
