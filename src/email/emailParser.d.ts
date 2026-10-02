@@ -1,2 +1,2 @@
-export declare function parseEmail(rawEmail: string): Promise<import("mailparser").ParsedMail | undefined>;
+export declare function parseEmail(rawEmail: string): Promise<any>;
 //# sourceMappingURL=emailParser.d.ts.map
